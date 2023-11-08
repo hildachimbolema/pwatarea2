@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reloj Analógico</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        }
+        body {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .clock-container {
+            height: 600px;
+            width: 600px;
+            border-radius: 100%;
+            background-image: linear-gradient(to right,#3ab5b0 0%, #3d99be 31%, #56317a 100%);
+            box-shadow: 0px 3px 3px rgba(255,255,255,0.3), inset 0px 3px 10px rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .clock-inside{
+            height: 550px;
+            width: 550px;
+            background-color: #fafafa;
+            position: relative;
+            border-radius: inherit;
+        }
+        .time-container {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+        .time {
+            font-size: 40px;
+            line-height: 40px;
+            color: #1d1d1d;
+            font-weight: 600;
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .time:nth-of-type(1) {
+            top: 60px;
+            right: 25%;
+            left: auto;
+        }
+        .time:nth-of-type(2) {
+            top: 140px;
+            right: 9%;
+            left: auto;
+        }
+        .time:nth-of-type(3) {
+            top: 50%;
+            right: 3%;
+            left: auto;
+        }
+        .time:nth-of-type(4) {
+            bottom: 140px;
+            top: auto;
+            right: 9%;
+            left: auto;
+        }
+
+        .time:nth-of-type(5) {
+            bottom: 60px;
+            top: auto;
+            right: 25%;
+            left: auto;
+        }
+        .time:nth-of-type(6) {
+            bottom: 20px;
+            top: auto;
+        }
+        .time:nth-of-type(7) {
+            bottom: 58px;
+            top: auto;
+            right: auto;
+            left: 28%;
+        }
+        .time:nth-of-type(8) {
+            bottom: 140px;
+            top: auto;
+            right: auto;
+            left: 13%;
+        }
+        .time:nth-of-type(9) {
+            top: 50%;
+            right: auto;
+            left: 40px;
+        }
+        .time:nth-of-type(10) {
+            top: 140px;
+            right: auto;
+            left: 13%;
+        }
+        .time:nth-of-type(11) {
+            top: 58px;
+            right: auto;
+            left: 28%;
+        }
+        .minutes {
+            height: 35%;
+            width: 10px;
+            border-radius: 5px;
+            background-image: linear-gradient(60deg,#29323c 0%, #485563 100%);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) rotate(180deg);
+            transform-origin: top;
+        }
+        .hours {
+            height: 25%;
+            width: 10px;
+            border-radius: 5px;
+            background-image: linear-gradient(60deg,#29323c 0%, #485563 100%);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) rotate(180deg);
+            transform-origin: top;
+        }
+        .seconds {
+            height: 38%;
+            width: 5px;
+            border-radius: 5px;
+            background-image: linear-gradient(60deg,#29323c 0%, #485563 100%);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) rotate(180deg);
+            transform-origin: top;
+        }
+        .header {
+            background-color: r; 
+            color: palevioletred; 
+            text-align: center;
+            padding: 20px;
+    
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .boton {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .boton img {
+            width: 50px; 
+            height: 50px; 
+            margin: 0 50px;
+        }
+
+        .boton:hover {
+            transform: scale(1.1); 
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #f4f4f4;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+            text-align: center;
+            position: relative;
+        }
+
+        .close {
+            color: #888;
+            float: right;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .elemento {
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            text-align: center;
+            line-height: 200px;
+            font-size: 24px;
+        }
+
+        .boton-volver {
+            margin-right:auto; 
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+    <h2>Reloj Analógico</h2> 
+    <div class="clock-container">
+        <div class="clock-inside">
+            <div class="time-container">
+                <h4 class="time">1</h4>
+                <h4 class="time">2</h4>
+                <h4 class="time">3</h4>
+                <h4 class="time">4</h4>
+                <h4 class="time">5</h4>
+                <h4 class="time">6</h4>
+                <h4 class="time">7</h4>
+                <h4 class="time">8</h4>
+                <h4 class="time">9</h4>
+                <h4 class="time">10</h4>
+                <h4 class="time">11</h4>
+                <h4 class="time">12</h4>
+            </div>
+            <div class="minutes" id="Minutes"></div>
+            <div class="hours" id="Hours"></div>
+            <div class="seconds" id="Seconds"></div>
+        </div>
+    </div>
+    
+        <button class="boton" onclick="window.location.href='../index.html'">
+            <img src="images/anterior.png" alt="Botón Atrás">
+        </button>
+        <button class="boton" onclick="window.location.href='ej05.html'">
+            <img src="images/proximo.png" alt="Botón Adelante">
+        </button> 
+    </header>
+    
+    <script>
+        var seconds = document.getElementById('Seconds');
+        var minutes = document.getElementById('Minutes');
+        var hours = document.getElementById('Hours');
+
+        setInterval(function(){
+            var date = new Date();
+
+            var second = date.getSeconds();
+            var grados = 180 +second*6;
+            seconds.style.transform = 'translateX(-50%) rotate('+grados+'deg)';
+
+            var minute = date.getMinutes();
+            var grados = 180 +second*6;
+            minutes.style.transform = 'translateX(-50%) rotate('+grados+'deg)';
+
+
+            var hour = date.getHours();
+            if(hour>=12)
+                hour = hour -12;
+            var grados = 180 +second*30;
+            seconds.style.transform = 'translateX(-50%) rotate('+grados+'deg)';
+        })
+    </script>
+</body>
+</html>

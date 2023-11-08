@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de tareas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" type="text/javascript" defer></script>
+</head>
+<style>
+
+    :root {
+    --primary: #A5C882;
+    --secondary: #D33F49;
+    --light: #fff;
+    --dark: #000;
+    --diabled: #e7e7e7;
+    }
+
+    body {
+        font-family: 'Lato', sans-serif;
+        margin: 0;
+        height: 100vh;
+        background-color: var(--diabled);
+    }
+
+    *:first-letter {
+        text-transform: capitalize;
+    }
+
+    .roundBorder {
+        border-radius: 5px;
+    }
+
+    .list {
+        margin: 25px auto;
+        padding: 25px;
+        background-color: var(--light);
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .date {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .dateRight {
+        display: flex;
+        align-items: center;
+    }
+
+    #dateNumber {
+        font-size: 50px;
+    }
+
+    #dateText {
+        letter-spacing: 3px;
+        text-transform: uppercase;
+    }
+
+    #dateMonth,
+    #dateNumber,
+    #dateText  {
+        font-weight: bold;
+    }
+
+    #dateMonth,
+    #dateYear {
+        margin-left: 7px;
+        font-size: 20px;
+    }
+
+    form {
+        margin: 20px 0;
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: auto 35px auto;
+        grid-column-gap: 15px;
+    }
+
+    input {
+        border: none;
+        padding-left: 10px;
+        background-color: var(--diabled);
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    .addTaskButton,
+    .orderButton {
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .addTaskButton {
+        height: 35px;
+        border-radius: 50%;
+        font-size: 18px;
+        background-color: var(--diabled);
+    }
+
+    .orderButton {
+        background-color: var(--secondary);
+        color: var(--light);
+    }
+
+    .task {
+        background-color: var(--primary);
+        padding: 15px;
+        margin-top: 15px;
+        color: var(--light);
+        cursor: pointer;
+    }
+
+    .done {
+        background-color: var(--diabled);
+        text-decoration: line-through;
+        color: var(--dark);
+    }
+    .header {
+            background-color: r; 
+            color: palevioletred; 
+            text-align: center;
+            padding: 20px;
+    
+        }
+
+    .header h1 {
+        font-size: 36px;
+        margin: 0;
+    }
+
+    .header h2 {
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .boton {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .boton img {
+        width: 50px; 
+        height: 50px; 
+        margin: 0 50px;
+    }
+
+    .boton:hover {
+        transform: scale(1.1); 
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+        background-color: #f4f4f4;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 60%;
+        text-align: center;
+        position: relative;
+    }
+
+    .close {
+        color: #888;
+        float: right;
+        font-size: 30px;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: #000;
+    }
+
+    .elemento {
+        width: 200px;
+        height: 200px;
+        margin: 20px;
+        text-align: center;
+        line-height: 200px;
+        font-size: 24px;
+    }
+
+    .boton-volver {
+        margin-right:auto; 
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+</style>
+<body>
+    <header class="header">
+        <h2>Lista de Tareas Interactivas</h2> 
+        <div class="list roundBorder">
+            <div class="date">
+                <div class="dateRight">
+                    <div id="dateNumber"></div>
+                    <div>
+                        <div id="dateMonth"></div>
+                        <div id="dateYear"></div>
+                    </div>
+                </div>
+                <div id="dateText"></div>
+            </div>
+            <form onsubmit="addNewTask(event)" >
+                <input type="text" name="taskText" autocomplete="off" placeholder="Nueva tarea" class="roundBorder">
+                <button type="submit" class="addTaskButton">+</button>
+                <button type="button" class="orderButton roundBorder" onclick="renderOrderedTasks()">Ordenar</button>
+            </form>
+            <div id="tasksContainer"></div>
+        </div>
+
+        <button class="boton" onclick="window.location.href='../index.html'">
+            <img src="images/anterior.png" alt="Botón Atrás">
+        </button>
+        <button class="boton" onclick="window.location.href='ej07.html'">
+            <img src="images/proximo.png" alt="Botón Adelante">
+        </button>
+    </head>
+    <script>
+        const dateNumber = document.getElementById('dateNumber');
+        const dateText = document.getElementById('dateText');
+        const dateMonth = document.getElementById('dateMonth');
+        const dateYear = document.getElementById('dateYear');
+
+        // Tasks Container
+        const tasksContainer = document.getElementById('tasksContainer');
+
+        const setDate = () => {
+            const date = new Date();
+            dateNumber.textContent = date.toLocaleString('es', { day: 'numeric' });
+            dateText.textContent = date.toLocaleString('es', { weekday: 'long' });
+            dateMonth.textContent = date.toLocaleString('es', { month: 'short' });
+            dateYear.textContent = date.toLocaleString('es', { year: 'numeric' });
+        };
+
+        const addNewTask = event => {
+            event.preventDefault();
+            const { value } = event.target.taskText;
+            if(!value) return;
+            const task = document.createElement('div');
+            task.classList.add('task', 'roundBorder');
+            task.addEventListener('click', changeTaskState)
+            task.textContent = value;
+            tasksContainer.prepend(task);
+            event.target.reset();
+        };
+
+        const changeTaskState = event => {
+            event.target.classList.toggle('done');
+        };
+
+        const order = () => {
+            const done = [];
+            const toDo = [];
+            tasksContainer.childNodes.forEach( el => {
+                el.classList.contains('done') ? done.push(el) : toDo.push(el)
+            })
+            return [...toDo, ...done];
+        }
+
+        const renderOrderedTasks = () => {
+            order().forEach(el => tasksContainer.appendChild(el))
+        }
+
+        setDate();
+    </script>
+</body>
+</html>

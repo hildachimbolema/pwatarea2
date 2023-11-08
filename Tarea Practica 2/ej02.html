@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        .calculadora{
+            display:block;
+            margin:0 auto;
+            padding:20px;
+            background-color: #DC4C46;
+            width: 300px;
+            height: 500px;
+            border-radius: 25px;
+        }
+        .calculadora td button {
+            display:block;
+            width:60px;
+            height:60px;
+            font-size:25px;
+        }
+        #resultado
+        {
+            display: block;
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 50px;
+            width: 250px;
+            height: 100px;
+            line-height: 100px;
+            background-color: #ffffff;
+            border-radius: 25px;
+            overflow-y: scroll;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin: 0;
+            text-align: center;
+            color: orangered;
+        }
+
+        body {
+        background-color: #f4f4f4; 
+        margin: 0;
+        padding: 0;
+        }
+        .header {
+            background-color: r; 
+            color: palevioletred; 
+            text-align: center;
+            padding: 20px;
+    
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .boton {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .boton img {
+            width: 50px; 
+            height: 50px; 
+            margin: 0 50px;
+        }
+
+        .boton:hover {
+            transform: scale(1.1); 
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #f4f4f4;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+            text-align: center;
+            position: relative;
+        }
+
+        .close {
+            color: #888;
+            float: right;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .elemento {
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            text-align: center;
+            line-height: 200px;
+            font-size: 24px;
+        }
+
+        .boton-volver {
+            margin-right:auto; 
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body onload="init();">
+    <h2>Cambiar de estilo al dar clic</h2> 
+    <br><br>
+    <table class="calculadora">
+        <tr>
+            <td colspan="4"><span id="resultado"></span></td>
+        </tr>
+        <tr>
+            <td><button id="siete">7</button></td>
+            <td><button id="ocho">8</button></td>
+            <td><button id="nueve">9</button></td>
+            <td><button id="division">/</button></td>
+        </tr>
+        <tr>
+            <td><button id="cuatro">4</button></td>
+            <td><button id="cinco">5</button></td>
+            <td><button id="seis">6</button></td>
+            <td><button id="multiplicacion">*</button></td>
+        </tr>
+        <tr>
+            <td><button id="uno">1</button></td>
+            <td><button id="dos">2</button></td>
+            <td><button id="tres">3</button></td>
+            <td><button id="resta">-</button></td>
+        </tr>
+        <tr>
+            <td><button id="igual">=</button></td>
+            <td><button id="reset">C</button></td>
+            <td><button id="cero">0</button></td>
+            <td><button id="suma">+</button></td>
+        </tr>
+    </table>
+        <br>
+    <header class="header">
+        <button class="boton" onclick="window.location.href='../index.html'">
+            <img src="images/anterior.png" alt="Botón Atrás">
+        </button>
+        <button class="boton" onclick="window.location.href='ej03.html'">
+            <img src="images/proximo.png" alt="Botón Adelante">
+        </button>
+        
+    </header>
+    <script>
+        var operandoa;
+        var operandob;
+        var operacion;
+        function init(){
+            var resultado = document.getElementById("resultado");
+            var reset = document.getElementById("reset");
+            var suma = document.getElementById("suma");
+            var resta = document.getElementById("resta");
+            var multiplicacion = document.getElementById("multiplicacion");
+            var division = document.getElementById("division");
+            var igual = document.getElementById("igual");
+            var uno = document.getElementById("uno");
+            var dos = document.getElementById("dos");
+            var tres = document.getElementById("tres");
+            var cuatro = document.getElementById("cuatro");
+            var cinco = document.getElementById("cinco");
+            var seis = document.getElementById("seis");
+            var siete = document.getElementById("siete");
+            var ocho = document.getElementById("ocho");
+            var nueve = document.getElementById("nueve");
+            var cero = document.getElementById("cero");
+
+            //eventos
+            uno.onclick = function(e) {
+                resultado.textContent = resultado.textContent + "1";
+
+            }
+            dos.onclick = function(e) {
+                resultado.textContent = resultado.textContent + "2";
+
+            }
+            tres.onclick = function(e) {
+                resultado.textContent = resultado.textContent + "3";
+
+            }
+            cuatro.onclick = function(e) {
+                resultado.textContent = resultado.textContent + "4";
+
+            }
+            cinco.onclick = function(e) {
+                resultado.textContent = resultado.textContent + "5";
+
+            }
+            seis.onclick = function(e) {
+                resultado.textContent = resultado.textContent + "6";
+
+            }
+            siete.onclick = function(e) {
+                resultado.textContent = resultado.textContent + "7";
+
+            }
+            ocho.onclick = function(e) {
+                resultado.textContent = resultado.textContent + "8";
+
+            }
+            nueve.onclick = function(e) {
+                resultado.textContent = resultado.textContent + "9";
+
+            }
+            cero.onclick = function(e) {
+                resultado.textContent = resultado.textContent + "0";
+
+            }
+            reset.onclick = function(e) {
+                resetear();
+            }
+            suma.onclick = function(e) {
+                operandoa = resultado.textContent;
+                operacion = "+";
+                limpiar();
+            }
+            resta.onclick = function(e) {
+                operandoa = resultado.textContent;
+                operacion = "-";
+                limpiar();
+            }
+            multiplicacion.onclick = function(e) {
+                operandoa = resultado.textContent;
+                operacion = "*";
+                limpiar();
+            }
+            division.onclick = function(e) {
+                operandoa = resultado.textContent;
+                operacion = "/";
+                limpiar();
+            }
+            igual.onclick = function(e) {
+                operandob = resultado.textContent;
+                resolver();
+            }
+
+        }
+        function limpiar(){
+        resultado.textContent = "";
+        }
+        function resetear(){
+        resultado.textContent = "";
+        operandoa = 0;
+        operandob = 0;
+        operacion = "";
+        }
+        function resolver(){
+        var res = 0;
+        switch(operacion){
+            case "+":
+                res = parseFloat(operandoa) + parseFloat(operandob);
+                break;
+            
+            case "-":
+                res = parseFloat(operandoa) - parseFloat(operandob);
+            break;
+
+            case "*":
+                res = parseFloat(operandoa) * parseFloat(operandob);
+                break;
+
+            case "/":
+                res = parseFloat(operandoa) / parseFloat(operandob);
+            break;
+        }
+            resetear();
+            resultado.textContent = res;
+        }
+    </script>
+</body>
+</html>

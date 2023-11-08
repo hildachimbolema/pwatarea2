@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Cuenta regresiva (Temporizador) </title>
+    <style>
+        *{
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        }
+  
+        body{
+            background-color: rgb(36, 36, 36);
+        }
+  
+        .cont-temporizador{
+            display: flex;
+            justify-content: center;   
+            margin-top: 50px; 
+        }
+        
+        .cont-temporizador .bloque{
+            margin: 0px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .cont-temporizador .bloque div{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(80, 80, 80);
+            box-shadow: 0px 0px 6px 2px #727272 inset;
+            color: #ffffff;
+            font-size: 40px;
+            font-weight: bold;
+            width: 100px;
+            height: 70px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        
+        .cont-temporizador .bloque p{
+            font-size: 11px;
+            font-weight: bold;
+            color: #d6d6d6;
+        }
+        .header {
+            background-color: r; 
+            color: palevioletred; 
+            text-align: center;
+            padding: 20px;
+    
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .boton {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .boton img {
+            width: 50px; 
+            height: 50px; 
+            margin: 0 50px;
+        }
+
+        .boton:hover {
+            transform: scale(1.1); 
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #f4f4f4;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+            text-align: center;
+            position: relative;
+        }
+
+        .close {
+            color: #888;
+            float: right;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .elemento {
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            text-align: center;
+            line-height: 200px;
+            font-size: 24px;
+        }
+
+        .boton-volver {
+            margin-right:auto; 
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+    <br> <br>
+    <h2>Temporizador</h2> 
+    <div class="cont-temporizador">
+        <div class="bloque">
+            <div class="dias" id="dias">00</div>
+            <p>DÍAS</p>
+        </div>
+        <div class="bloque">
+            <div class="horas" id="horas">--</div>
+            <p>HORAS</p>
+        </div>
+        <div class="bloque">
+            <div class="minutos" id="minutos">--</div>
+            <p>MINUTOS</p>
+        </div>
+        <div class="bloque">
+            <div class="segundos" id="segundos">--</div>
+            <p>SEGUNDOS</p>
+        </div>
+    </div>
+    <header class="header">
+        <br>
+        <button class="boton" onclick="window.location.href='../index.html'">
+            <img src="images/anterior.png" alt="Botón Atrás">
+        </button>
+        <button class="boton" onclick="window.location.href='ej10.html'">
+            <img src="images/proximo.png" alt="Botón Adelante">
+        </button>
+        
+    </header>
+    <script>
+        let horas = 7;
+        let minutos = 0;
+        let segundos = 0;
+        cargarSegundo();
+
+
+        function cargarSegundo(){
+            let txtSegundos;
+
+            if(segundos < 0){
+                segundos = 59; 
+            }
+
+        
+            if(segundos < 10){
+                txtSegundos = `0${segundos}`;
+            }else{
+                txtSegundos = segundos;
+            }
+            document.getElementById('segundos').innerHTML = txtSegundos;
+            segundos--;
+
+            cargarMinutos(segundos);
+        }
+
+        function cargarMinutos(segundos){
+            let txtMinutos;
+
+            if(segundos == -1 && minutos !== 0){
+                setTimeout(() =>{
+                    minutos--;
+                },500)
+            }else if(segundos == -1 && minutos == 0){
+                setTimeout(() =>{
+                    minutos = 59;
+                },500)
+            }
+
+  
+            if(minutos < 10){
+                txtMinutos = `0${minutos}`;
+            }else{
+                txtMinutos = minutos;
+            }
+            document.getElementById('minutos').innerHTML = txtMinutos;
+            cargarHoras(segundos,minutos);
+        }
+
+
+        function cargarHoras(segundos,minutos){
+            let txtHoras;
+
+            if(segundos == -1 && minutos == 0 && horas !== 0){
+                setTimeout(() =>{
+                    horas--;
+                },500)
+            }else if(segundos == -1 && minutos == 0 && horas == 0){
+                setTimeout(() =>{
+                    horas = 2;
+                },500)
+            }
+
+  
+            if(horas < 10){
+                txtHoras = `0${horas}`;
+            }else{
+                txtHoras = horas;
+            }
+            document.getElementById('horas').innerHTML = txtHoras;
+        }
+
+        setInterval(cargarSegundo,1000);
+    </script>
+</body>
+</html>
